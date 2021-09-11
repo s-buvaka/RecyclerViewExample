@@ -2,11 +2,7 @@
     <string name="app_name">RecyclerView Example</string>
 
     <plurals name="age_plurals">
-        <item quantity="zero">%d лет</item>
-        <item quantity="one">%d год</item>
-        <item quantity="two">%d года</item>
-        <item quantity="few">%d года</item>
-        <item quantity="many">%d лет</item>
-        <item quantity="other">%d лет</item>
+        <item quantity="zero">%d year</item>
+        <item quantity="other">%d years</item>
     </plurals>
 </resources>

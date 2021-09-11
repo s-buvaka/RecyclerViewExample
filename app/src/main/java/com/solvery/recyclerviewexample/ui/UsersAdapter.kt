@@ -8,7 +8,9 @@ import com.solvery.recyclerviewexample.R
 import com.solvery.recyclerviewexample.data.models.User
 import com.solvery.recyclerviewexample.databinding.ListItemUserBinding
 
-class UsersAdapter : RecyclerView.Adapter<UsersAdapter.ViewHolder>() {
+class UsersAdapter(
+    private val clickListener: (User) -> Unit
+) : RecyclerView.Adapter<UsersAdapter.ViewHolder>() {
 
     private var items: List<User> = emptyList()
 
@@ -16,7 +18,7 @@ class UsersAdapter : RecyclerView.Adapter<UsersAdapter.ViewHolder>() {
         val binding = ListItemUserBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
 
-        return ViewHolder(binding)
+        return ViewHolder(binding, clickListener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -31,15 +33,23 @@ class UsersAdapter : RecyclerView.Adapter<UsersAdapter.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-    class ViewHolder(private val binding: ListItemUserBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(
+        private val binding: ListItemUserBinding,
+        private val clickListener: (User) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(user: User) {
             with(binding) {
+                root.setOnClickListener { clickListener(user) }
+
                 nameField.text = user.name
                 surnameField.text = user.surname
                 ageField.text =
-                    root.context.resources.getQuantityString(R.plurals.age_plurals, user.age, user.age)
+                    root.context.resources.getQuantityString(
+                        R.plurals.age_plurals,
+                        user.age,
+                        user.age
+                    )
             }
         }
     }

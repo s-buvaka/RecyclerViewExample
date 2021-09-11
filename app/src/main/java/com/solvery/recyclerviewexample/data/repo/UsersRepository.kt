@@ -31,29 +31,29 @@ internal class UsersRepositoryImpl : UsersRepository {
     companion object {
 
         private val NAMES = listOf(
-            "Сергей",
-            "Алекснадр",
-            "Борис",
-            "Андрей",
-            "Иван",
-            "Максим",
-            "Петр",
-            "Илья",
-            "Павел",
-            "Николай",
+            "Sergey",
+            "Alexandr",
+            "Boris",
+            "Andrey",
+            "Ivan",
+            "Maxim",
+            "Petr",
+            "Illa",
+            "Pavel",
+            "Nikolay",
         )
 
         private val SURNAMES = listOf(
-            "Гребнев",
-            "Ляпустин",
-            "Савостин",
-            "Григоров",
-            "Мощев",
-            "Кривоносов",
-            "Долгов",
-            "Снытко",
-            "Щепалин",
-            "Фролов",
+            "Grebnev",
+            "Lyapustin",
+            "Savostin",
+            "Grigorov",
+            "Moshev",
+            "Krivonosov",
+            "Dolgov",
+            "Snytko",
+            "Shepalyn",
+            "Frolov",
         )
     }
 }
