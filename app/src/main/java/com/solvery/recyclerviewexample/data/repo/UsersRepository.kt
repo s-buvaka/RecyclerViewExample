@@ -18,6 +18,7 @@ internal class UsersRepositoryImpl : UsersRepository {
         for (index in 0..count) {
             users.add(
                 User(
+                    id = index.toString(),
                     name = NAMES[Random.nextInt(NAMES.size)],
                     surname = SURNAMES[Random.nextInt(SURNAMES.size)],
                     age = Random.nextInt(100),

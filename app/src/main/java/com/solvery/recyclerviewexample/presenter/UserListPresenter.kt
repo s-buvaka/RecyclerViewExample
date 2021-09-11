@@ -1,7 +1,7 @@
 package com.solvery.recyclerviewexample.presenter
 
+import android.annotation.SuppressLint
 import android.os.Handler
-import androidx.core.os.postDelayed
 import com.solvery.recyclerviewexample.data.models.User
 import com.solvery.recyclerviewexample.data.repo.UsersRepository
 import com.solvery.recyclerviewexample.ui.UserListView
@@ -21,6 +21,7 @@ class UserListPresenter(private val usersRepository: UsersRepository) {
         view = null
     }
 
+    @SuppressLint("NewApi")
     fun loadData() {
         users = usersRepository.getUsers(Random.nextInt(100))
 
@@ -30,7 +31,6 @@ class UserListPresenter(private val usersRepository: UsersRepository) {
     fun onUserClick(user: User) {
         view?.showLoader(true)
         doSomethingWithUser(user)
-
     }
 
     fun handleQuery(query: CharSequence) {

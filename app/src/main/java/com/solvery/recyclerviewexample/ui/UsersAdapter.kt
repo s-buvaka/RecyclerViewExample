@@ -3,6 +3,7 @@ package com.solvery.recyclerviewexample.ui
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.solvery.recyclerviewexample.R
 import com.solvery.recyclerviewexample.data.models.User
@@ -29,8 +30,19 @@ class UsersAdapter(
 
     @SuppressLint("NotifyDataSetChanged")
     fun update(items: List<User>) {
-        this.items = items
-        notifyDataSetChanged()
+
+        if (this.items.isEmpty()) {
+            this.items = items
+            notifyDataSetChanged()
+        } else {
+            val callback = UsersDiffUtils(
+                oldList = this.items,
+                newList = items
+            )
+
+            this.items = items
+            DiffUtil.calculateDiff(callback).dispatchUpdatesTo(this)
+        }
     }
 
     class ViewHolder(
