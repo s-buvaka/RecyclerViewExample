@@ -6,26 +6,31 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.solvery.recyclerviewexample.data.models.User
-import com.solvery.recyclerviewexample.data.repo.UsersRepository
-import com.solvery.recyclerviewexample.data.repo.UsersRepositoryImpl
-import com.solvery.recyclerviewexample.databinding.ActivityUserListBinding
-import com.solvery.recyclerviewexample.presenter.UserListPresenter
+import com.solvery.recyclerviewexample.data.models.Story
+import com.solvery.recyclerviewexample.data.network.NyTimesApi
+import com.solvery.recyclerviewexample.data.network.RetrofitFactory
+import com.solvery.recyclerviewexample.data.repo.StoriesRepository
+import com.solvery.recyclerviewexample.data.repo.StoriesRepositoryImpl
+import com.solvery.recyclerviewexample.databinding.ActivityStoriesBinding
+import com.solvery.recyclerviewexample.presenter.StoriesPresenter
 
-class UserListActivity : AppCompatActivity(), UserListView {
+class StoriesActivity : AppCompatActivity(), StoriesView {
 
-    private val usersAdapter: UsersAdapter by lazy(LazyThreadSafetyMode.NONE) { UsersAdapter(::onUserClick) }
-
-    private val usersRepository: UsersRepository = UsersRepositoryImpl()
-    private val presenter: UserListPresenter by lazy(LazyThreadSafetyMode.NONE) {
-        UserListPresenter(usersRepository)
+    private val storiesAdapter: StoriesAdapter by lazy(LazyThreadSafetyMode.NONE) {
+        StoriesAdapter(::onStoryClick)
     }
 
-    private lateinit var binding: ActivityUserListBinding
+    private val nyTimesApi: NyTimesApi by lazy { RetrofitFactory.nyTimesApi }
+    private val storiesRepository: StoriesRepository by lazy { StoriesRepositoryImpl(nyTimesApi) }
+    private val presenter: StoriesPresenter by lazy(LazyThreadSafetyMode.NONE) {
+        StoriesPresenter(storiesRepository)
+    }
+
+    private lateinit var binding: ActivityStoriesBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityUserListBinding.inflate(layoutInflater)
+        binding = ActivityStoriesBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         presenter.attach(this)
@@ -42,8 +47,8 @@ class UserListActivity : AppCompatActivity(), UserListView {
         presenter.detach()
     }
 
-    override fun updateUsers(users: List<User>) {
-        usersAdapter.update(users)
+    override fun updateStories(stories: List<Story>) {
+        storiesAdapter.update(stories)
     }
 
     override fun showLoader(isShow: Boolean) {
@@ -56,8 +61,8 @@ class UserListActivity : AppCompatActivity(), UserListView {
 
     private fun initRecycler() {
         with(binding.usersRecycler) {
-            layoutManager = LinearLayoutManager(this@UserListActivity)
-            adapter = usersAdapter
+            layoutManager = LinearLayoutManager(this@StoriesActivity)
+            adapter = storiesAdapter
         }
     }
 
@@ -78,7 +83,7 @@ class UserListActivity : AppCompatActivity(), UserListView {
         }
     }
 
-    private fun onUserClick(user: User) {
-        presenter.onUserClick(user)
+    private fun onStoryClick(story: Story) {
+        presenter.onUserClick(story)
     }
 }

@@ -5,18 +5,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.solvery.recyclerviewexample.R
-import com.solvery.recyclerviewexample.data.models.User
-import com.solvery.recyclerviewexample.databinding.ListItemUserBinding
+import com.solvery.recyclerviewexample.data.models.Story
+import com.solvery.recyclerviewexample.databinding.ListItemStoryBinding
 
-class UsersAdapter(
-    private val clickListener: (User) -> Unit
-) : RecyclerView.Adapter<UsersAdapter.ViewHolder>() {
+class StoriesAdapter(
+    private val clickListener: (Story) -> Unit
+) : RecyclerView.Adapter<StoriesAdapter.ViewHolder>() {
 
-    private var items: List<User> = emptyList()
+    private var items: List<Story> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ListItemUserBinding
+        val binding = ListItemStoryBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
 
         return ViewHolder(binding, clickListener)
@@ -29,7 +28,7 @@ class UsersAdapter(
     override fun getItemCount(): Int = items.size
 
     @SuppressLint("NotifyDataSetChanged")
-    fun update(items: List<User>) {
+    fun update(items: List<Story>) {
 
         if (this.items.isEmpty()) {
             this.items = items
@@ -46,22 +45,17 @@ class UsersAdapter(
     }
 
     class ViewHolder(
-        private val binding: ListItemUserBinding,
-        private val clickListener: (User) -> Unit
+        private val binding: ListItemStoryBinding,
+        private val clickListener: (Story) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(user: User) {
+        fun bind(story: Story) {
             with(binding) {
-                root.setOnClickListener { clickListener(user) }
+                root.setOnClickListener { clickListener(story) }
 
-                nameField.text = user.name
-                surnameField.text = user.surname
-                ageField.text =
-                    root.context.resources.getQuantityString(
-                        R.plurals.age_plurals,
-                        user.age,
-                        user.age
-                    )
+                titleField.text = story.title
+                bylineField.text = story.byline
+                sectionField.text = story.section
             }
         }
     }

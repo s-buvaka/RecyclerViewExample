@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="8dp"
-    tools:context=".ui.UserListActivity">
+    tools:context=".ui.StoriesActivity">
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/search_view"
@@ -24,7 +24,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_view"
-        tools:listitem="@layout/list_item_user" />
+        tools:listitem="@layout/list_item_story" />
 
     <ProgressBar
         android:id="@+id/progress_bar"

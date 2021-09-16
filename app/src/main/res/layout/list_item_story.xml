@@ -14,7 +14,7 @@
         android:padding="8dp">
 
         <TextView
-            android:id="@+id/name_field"
+            android:id="@+id/title_field"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
@@ -23,17 +23,17 @@
             tools:text="Alex" />
 
         <TextView
-            android:id="@+id/surname_field"
+            android:id="@+id/byline_field"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/name_field"
+            app:layout_constraintTop_toBottomOf="@id/title_field"
             tools:text="Johnson" />
 
         <TextView
-            android:id="@+id/age_field"
+            android:id="@+id/section_field"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
