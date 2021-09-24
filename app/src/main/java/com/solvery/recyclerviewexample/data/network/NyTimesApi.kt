@@ -11,6 +11,5 @@ interface NyTimesApi {
     @GET("{category}.json")
     fun getPersons(
         @Path("category") category: String,
-        @Query("api-key") key: String,
     ): Call<StoriesResponse>
 }
