@@ -1,6 +1,6 @@
 package com.solvery.recyclerviewexample.data.network
 
-import com.solvery.recyclerviewexample.data.models.StoriesResponse
+import com.solvery.recyclerviewexample.data.network.models.StoriesResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

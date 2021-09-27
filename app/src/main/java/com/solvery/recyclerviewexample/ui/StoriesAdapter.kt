@@ -5,14 +5,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.solvery.recyclerviewexample.data.models.Story
+import com.solvery.recyclerviewexample.ui.models.StoryVO
 import com.solvery.recyclerviewexample.databinding.ListItemStoryBinding
 
 class StoriesAdapter(
-    private val clickListener: (Story) -> Unit
+    private val clickListener: (StoryVO) -> Unit
 ) : RecyclerView.Adapter<StoriesAdapter.ViewHolder>() {
 
-    private var items: List<Story> = emptyList()
+    private var items: List<StoryVO> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ListItemStoryBinding
@@ -28,7 +28,7 @@ class StoriesAdapter(
     override fun getItemCount(): Int = items.size
 
     @SuppressLint("NotifyDataSetChanged")
-    fun update(items: List<Story>) {
+    fun update(items: List<StoryVO>) {
 
         if (this.items.isEmpty()) {
             this.items = items
@@ -46,10 +46,10 @@ class StoriesAdapter(
 
     class ViewHolder(
         private val binding: ListItemStoryBinding,
-        private val clickListener: (Story) -> Unit
+        private val clickListener: (StoryVO) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(story: Story) {
+        fun bind(story: StoryVO) {
             with(binding) {
                 root.setOnClickListener { clickListener(story) }
 

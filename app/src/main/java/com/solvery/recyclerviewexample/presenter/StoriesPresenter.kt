@@ -2,8 +2,8 @@ package com.solvery.recyclerviewexample.presenter
 
 import android.annotation.SuppressLint
 import android.os.Handler
-import com.solvery.recyclerviewexample.data.models.StoriesResponse
-import com.solvery.recyclerviewexample.data.models.Story
+import com.solvery.recyclerviewexample.data.network.models.StoriesResponse
+import com.solvery.recyclerviewexample.ui.models.StoryVO
 import com.solvery.recyclerviewexample.data.repo.StoriesRepository
 import com.solvery.recyclerviewexample.ui.StoriesView
 import retrofit2.Call
@@ -15,7 +15,7 @@ class StoriesPresenter(private val storiesRepository: StoriesRepository) {
 
     private var view: StoriesView? = null
 
-    private lateinit var stories: List<Story>
+    private lateinit var stories: List<StoryVO>
 
     fun attach(view: StoriesView) {
         this.view = view
@@ -35,7 +35,7 @@ class StoriesPresenter(private val storiesRepository: StoriesRepository) {
                 val results = response.body()?.results
                 if (response.isSuccessful && !results.isNullOrEmpty()) {
                     val stories = results.map { resultsItem ->
-                        Story(
+                        StoryVO(
                             url = resultsItem.url.orEmpty(),
                             title = resultsItem.title.orEmpty(),
                             byline = resultsItem.byline.orEmpty(),
@@ -54,7 +54,7 @@ class StoriesPresenter(private val storiesRepository: StoriesRepository) {
 
     }
 
-    fun onUserClick(story: Story) {
+    fun onUserClick(story: StoryVO) {
         view?.showLoader(true)
         doSomethingWithUser(story)
     }
@@ -69,7 +69,7 @@ class StoriesPresenter(private val storiesRepository: StoriesRepository) {
         view?.updateStories(filteredList)
     }
 
-    private fun doSomethingWithUser(story: Story) {
+    private fun doSomethingWithUser(story: StoryVO) {
         Handler().postDelayed({
             view?.showLoader(false)
             view?.showMessage("${story.title} ${story.byline} was clicked")

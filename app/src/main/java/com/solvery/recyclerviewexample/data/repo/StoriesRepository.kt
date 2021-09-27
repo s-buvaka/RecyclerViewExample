@@ -1,6 +1,6 @@
 package com.solvery.recyclerviewexample.data.repo
 
-import com.solvery.recyclerviewexample.data.models.StoriesResponse
+import com.solvery.recyclerviewexample.data.network.models.StoriesResponse
 import com.solvery.recyclerviewexample.data.network.NetworkConstants
 import com.solvery.recyclerviewexample.data.network.NyTimesApi
 import com.solvery.recyclerviewexample.data.network.StoriesCategory

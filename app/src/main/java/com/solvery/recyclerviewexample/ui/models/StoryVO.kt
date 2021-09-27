@@ -1,6 +1,6 @@
-package com.solvery.recyclerviewexample.data.models
+package com.solvery.recyclerviewexample.ui.models
 
-data class Story(
+data class StoryVO(
     val url: String,
     val title: String,
     val byline: String,

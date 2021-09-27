@@ -1,11 +1,11 @@
 package com.solvery.recyclerviewexample.ui
 
 import androidx.recyclerview.widget.DiffUtil
-import com.solvery.recyclerviewexample.data.models.Story
+import com.solvery.recyclerviewexample.ui.models.StoryVO
 
 class UsersDiffUtils(
-    private val oldList: List<Story>,
-    private val newList: List<Story>
+    private val oldList: List<StoryVO>,
+    private val newList: List<StoryVO>
 ) : DiffUtil.Callback() {
 
     override fun getOldListSize(): Int = oldList.size

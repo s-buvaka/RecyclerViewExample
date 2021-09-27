@@ -6,7 +6,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.solvery.recyclerviewexample.data.models.Story
+import com.solvery.recyclerviewexample.ui.models.StoryVO
 import com.solvery.recyclerviewexample.data.network.NyTimesApi
 import com.solvery.recyclerviewexample.data.network.RetrofitFactory
 import com.solvery.recyclerviewexample.data.repo.StoriesRepository
@@ -47,7 +47,7 @@ class StoriesActivity : AppCompatActivity(), StoriesView {
         presenter.detach()
     }
 
-    override fun updateStories(stories: List<Story>) {
+    override fun updateStories(stories: List<StoryVO>) {
         storiesAdapter.update(stories)
     }
 
@@ -83,7 +83,7 @@ class StoriesActivity : AppCompatActivity(), StoriesView {
         }
     }
 
-    private fun onStoryClick(story: Story) {
+    private fun onStoryClick(story: StoryVO) {
         presenter.onUserClick(story)
     }
 }
