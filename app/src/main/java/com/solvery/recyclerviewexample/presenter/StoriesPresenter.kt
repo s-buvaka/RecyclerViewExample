@@ -2,20 +2,17 @@ package com.solvery.recyclerviewexample.presenter
 
 import android.annotation.SuppressLint
 import android.os.Handler
-import com.solvery.recyclerviewexample.data.network.models.StoriesResponse
-import com.solvery.recyclerviewexample.ui.models.StoryVO
+import com.solvery.recyclerviewexample.data.domain.ResultListener
+import com.solvery.recyclerviewexample.data.domain.models.Story
 import com.solvery.recyclerviewexample.data.repo.StoriesRepository
 import com.solvery.recyclerviewexample.ui.StoriesView
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import kotlin.random.Random
 
 class StoriesPresenter(private val storiesRepository: StoriesRepository) {
 
     private var view: StoriesView? = null
 
-    private lateinit var stories: List<StoryVO>
+    private var stories: List<Story> = emptyList()
 
     fun attach(view: StoriesView) {
         this.view = view
@@ -27,34 +24,19 @@ class StoriesPresenter(private val storiesRepository: StoriesRepository) {
 
     @SuppressLint("NewApi")
     fun loadData() {
-        storiesRepository.getStories().enqueue(object : Callback<StoriesResponse> {
-            override fun onResponse(
-                call: Call<StoriesResponse>,
-                response: Response<StoriesResponse>
-            ) {
-                val results = response.body()?.results
-                if (response.isSuccessful && !results.isNullOrEmpty()) {
-                    val stories = results.map { resultsItem ->
-                        StoryVO(
-                            url = resultsItem.url.orEmpty(),
-                            title = resultsItem.title.orEmpty(),
-                            byline = resultsItem.byline.orEmpty(),
-                            section = resultsItem.section.orEmpty()
-                        )
-                    }
-
-                    view?.updateStories(stories)
-                }
+        storiesRepository.getStories(object : ResultListener<List<Story>> {
+            override fun onSuccess(data: List<Story>) {
+                stories = data
+                view?.updateStories(data)
             }
 
-            override fun onFailure(call: Call<StoriesResponse>, t: Throwable) {
+            override fun onError(error: Throwable) {
                 view?.showMessage("Something is wrong")
             }
         })
-
     }
 
-    fun onUserClick(story: StoryVO) {
+    fun onUserClick(story: Story) {
         view?.showLoader(true)
         doSomethingWithUser(story)
     }
@@ -69,7 +51,7 @@ class StoriesPresenter(private val storiesRepository: StoriesRepository) {
         view?.updateStories(filteredList)
     }
 
-    private fun doSomethingWithUser(story: StoryVO) {
+    private fun doSomethingWithUser(story: Story) {
         Handler().postDelayed({
             view?.showLoader(false)
             view?.showMessage("${story.title} ${story.byline} was clicked")

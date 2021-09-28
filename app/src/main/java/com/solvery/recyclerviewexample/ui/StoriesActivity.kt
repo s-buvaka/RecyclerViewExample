@@ -6,27 +6,41 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.solvery.recyclerviewexample.ui.models.StoryVO
+import com.solvery.recyclerviewexample.application.executors.BackgroundExecutor
+import com.solvery.recyclerviewexample.application.executors.Executors
+import com.solvery.recyclerviewexample.application.executors.UiThreadExecutor
+import com.solvery.recyclerviewexample.data.databse.DatabaseHolder
+import com.solvery.recyclerviewexample.data.databse.StoriesDatabase
+import com.solvery.recyclerviewexample.data.domain.models.Story
 import com.solvery.recyclerviewexample.data.network.NyTimesApi
 import com.solvery.recyclerviewexample.data.network.RetrofitFactory
 import com.solvery.recyclerviewexample.data.repo.StoriesRepository
 import com.solvery.recyclerviewexample.data.repo.StoriesRepositoryImpl
 import com.solvery.recyclerviewexample.databinding.ActivityStoriesBinding
 import com.solvery.recyclerviewexample.presenter.StoriesPresenter
+import kotlinx.serialization.ExperimentalSerializationApi
 
+@ExperimentalSerializationApi
 class StoriesActivity : AppCompatActivity(), StoriesView {
 
-    private val storiesAdapter: StoriesAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        StoriesAdapter(::onStoryClick)
-    }
-
+    private val executors: Executors = Executors(
+        mainThread = UiThreadExecutor(),
+        background = BackgroundExecutor()
+    )
     private val nyTimesApi: NyTimesApi by lazy { RetrofitFactory.nyTimesApi }
-    private val storiesRepository: StoriesRepository by lazy { StoriesRepositoryImpl(nyTimesApi) }
+    private val database: StoriesDatabase by lazy { DatabaseHolder.storiesDatabase }
+    private val storiesRepository: StoriesRepository by lazy {
+        StoriesRepositoryImpl(executors, nyTimesApi, database)
+    }
     private val presenter: StoriesPresenter by lazy(LazyThreadSafetyMode.NONE) {
         StoriesPresenter(storiesRepository)
     }
 
     private lateinit var binding: ActivityStoriesBinding
+
+    private val storiesAdapter: StoriesAdapter by lazy(LazyThreadSafetyMode.NONE) {
+        StoriesAdapter(::onStoryClick)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +61,7 @@ class StoriesActivity : AppCompatActivity(), StoriesView {
         presenter.detach()
     }
 
-    override fun updateStories(stories: List<StoryVO>) {
+    override fun updateStories(stories: List<Story>) {
         storiesAdapter.update(stories)
     }
 
@@ -83,7 +97,7 @@ class StoriesActivity : AppCompatActivity(), StoriesView {
         }
     }
 
-    private fun onStoryClick(story: StoryVO) {
+    private fun onStoryClick(story: Story) {
         presenter.onUserClick(story)
     }
 }
