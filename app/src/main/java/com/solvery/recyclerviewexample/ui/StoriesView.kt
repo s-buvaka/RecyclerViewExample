@@ -1,6 +1,6 @@
 package com.solvery.recyclerviewexample.ui
 
-import com.solvery.recyclerviewexample.data.domain.models.Story
+import com.solvery.recyclerviewexample.ui.models.VisualObject
 
 interface StoriesView {
 
@@ -8,5 +8,5 @@ interface StoriesView {
 
     fun showMessage(message: String)
 
-    fun updateStories(stories: List<Story>)
+    fun updateStories(stories: List<VisualObject>)
 }

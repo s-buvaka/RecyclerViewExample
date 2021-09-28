@@ -1,11 +1,11 @@
 package com.solvery.recyclerviewexample.ui
 
 import androidx.recyclerview.widget.DiffUtil
-import com.solvery.recyclerviewexample.data.domain.models.Story
+import com.solvery.recyclerviewexample.ui.models.VisualObject
 
 class UsersDiffUtils(
-    private val oldList: List<Story>,
-    private val newList: List<Story>
+    private val oldList: List<VisualObject>,
+    private val newList: List<VisualObject>
 ) : DiffUtil.Callback() {
 
     override fun getOldListSize(): Int = oldList.size
@@ -13,7 +13,7 @@ class UsersDiffUtils(
     override fun getNewListSize(): Int = newList.size
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return newList[newItemPosition].url == oldList[oldItemPosition].url
+        return newList[newItemPosition].id == oldList[oldItemPosition].id
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {

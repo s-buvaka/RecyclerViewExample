@@ -11,13 +11,14 @@ import com.solvery.recyclerviewexample.application.executors.Executors
 import com.solvery.recyclerviewexample.application.executors.UiThreadExecutor
 import com.solvery.recyclerviewexample.data.databse.DatabaseHolder
 import com.solvery.recyclerviewexample.data.databse.StoriesDatabase
-import com.solvery.recyclerviewexample.data.domain.models.Story
 import com.solvery.recyclerviewexample.data.network.NyTimesApi
 import com.solvery.recyclerviewexample.data.network.RetrofitFactory
 import com.solvery.recyclerviewexample.data.repo.StoriesRepository
 import com.solvery.recyclerviewexample.data.repo.StoriesRepositoryImpl
 import com.solvery.recyclerviewexample.databinding.ActivityStoriesBinding
 import com.solvery.recyclerviewexample.presenter.StoriesPresenter
+import com.solvery.recyclerviewexample.ui.models.StoryVO
+import com.solvery.recyclerviewexample.ui.models.VisualObject
 import kotlinx.serialization.ExperimentalSerializationApi
 
 @ExperimentalSerializationApi
@@ -61,7 +62,7 @@ class StoriesActivity : AppCompatActivity(), StoriesView {
         presenter.detach()
     }
 
-    override fun updateStories(stories: List<Story>) {
+    override fun updateStories(stories: List<VisualObject>) {
         storiesAdapter.update(stories)
     }
 
@@ -97,7 +98,7 @@ class StoriesActivity : AppCompatActivity(), StoriesView {
         }
     }
 
-    private fun onStoryClick(story: Story) {
+    private fun onStoryClick(story: StoryVO) {
         presenter.onUserClick(story)
     }
 }
