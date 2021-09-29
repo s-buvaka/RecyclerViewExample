@@ -18,5 +18,8 @@ class Story(
     val byline: String,
 
     @ColumnInfo(name = "section")
-    val section: String
+    val section: String,
+
+    @ColumnInfo(name = "image_cover")
+    val imageCover: String
 )

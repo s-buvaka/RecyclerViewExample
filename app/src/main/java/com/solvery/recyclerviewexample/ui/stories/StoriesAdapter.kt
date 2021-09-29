@@ -1,10 +1,11 @@
-package com.solvery.recyclerviewexample.ui
+package com.solvery.recyclerviewexample.ui.stories
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.solvery.recyclerviewexample.databinding.ListItemSectionBinding
 import com.solvery.recyclerviewexample.databinding.ListItemStoryBinding
 import com.solvery.recyclerviewexample.ui.models.SectionVO
@@ -57,7 +58,7 @@ class StoriesAdapter(
             this.items = items
             notifyDataSetChanged()
         } else {
-            val callback = UsersDiffUtils(
+            val callback = StoriesDiffUtils(
                 oldList = this.items,
                 newList = items
             )
@@ -78,7 +79,11 @@ class StoriesAdapter(
 
                 titleField.text = story.title
                 bylineField.text = story.byline
-                sectionField.text = story.section
+
+                Glide.with(binding.root)
+                    .load(story.imageCover)
+                    .centerCrop()
+                    .into(binding.image)
             }
         }
     }

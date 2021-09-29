@@ -1,4 +1,4 @@
-package com.solvery.recyclerviewexample.ui
+package com.solvery.recyclerviewexample.ui.stories
 
 import com.solvery.recyclerviewexample.ui.models.VisualObject
 

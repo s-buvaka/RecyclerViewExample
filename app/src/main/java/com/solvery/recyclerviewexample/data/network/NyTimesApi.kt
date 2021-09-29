@@ -9,7 +9,7 @@ import retrofit2.http.Query
 interface NyTimesApi {
 
     @GET("{category}.json")
-    fun getPersons(
+    fun getPersonsByCategory(
         @Path("category") category: String,
     ): Call<StoriesResponse>
 }

@@ -1,9 +1,9 @@
-package com.solvery.recyclerviewexample.ui
+package com.solvery.recyclerviewexample.ui.stories
 
 import androidx.recyclerview.widget.DiffUtil
 import com.solvery.recyclerviewexample.ui.models.VisualObject
 
-class UsersDiffUtils(
+class StoriesDiffUtils(
     private val oldList: List<VisualObject>,
     private val newList: List<VisualObject>
 ) : DiffUtil.Callback() {

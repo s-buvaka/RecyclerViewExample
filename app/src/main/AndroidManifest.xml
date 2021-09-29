@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RecyclerViewExample">
         <activity
-            android:name=".ui.StoriesActivity"
+            android:name=".ui.stories.StoriesActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

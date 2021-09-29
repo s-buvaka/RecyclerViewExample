@@ -5,7 +5,6 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import java.util.concurrent.TimeUnit
 
@@ -34,7 +33,6 @@ object RetrofitFactory {
     private fun buildOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(ApiKeyInterceptor())
-            .addInterceptor(HttpLoggingInterceptor())
             .readTimeout(TIMEOUT_IN_SECOND.toLong(), TimeUnit.SECONDS)
             .connectTimeout(TIMEOUT_IN_SECOND.toLong(), TimeUnit.SECONDS)
             .build()

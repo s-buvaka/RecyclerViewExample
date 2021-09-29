@@ -1,9 +1,6 @@
 package com.solvery.recyclerviewexample.data.databse
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.solvery.recyclerviewexample.data.domain.models.Story
 
 @Dao
@@ -18,7 +15,7 @@ interface StoriesDao {
     @Query("SELECT * FROM story WHERE section LIKE :section")
     fun findBySection(section: String): Story
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(stories: List<Story>)
 
     @Delete

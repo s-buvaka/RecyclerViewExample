@@ -1,17 +1,21 @@
-package com.solvery.recyclerviewexample.presenter
+package com.solvery.recyclerviewexample.ui.stories.presenter
 
 import android.annotation.SuppressLint
 import android.os.Handler
 import com.solvery.recyclerviewexample.data.domain.ResultListener
+import com.solvery.recyclerviewexample.data.domain.mappers.Mapper
 import com.solvery.recyclerviewexample.data.domain.models.Story
 import com.solvery.recyclerviewexample.data.repo.StoriesRepository
-import com.solvery.recyclerviewexample.ui.StoriesView
 import com.solvery.recyclerviewexample.ui.models.SectionVO
 import com.solvery.recyclerviewexample.ui.models.StoryVO
 import com.solvery.recyclerviewexample.ui.models.VisualObject
+import com.solvery.recyclerviewexample.ui.stories.StoriesView
 import kotlin.random.Random
 
-class StoriesPresenter(private val storiesRepository: StoriesRepository) {
+class StoriesPresenter(
+    private val storiesRepository: StoriesRepository,
+    private val storiesVoMapper: Mapper<Story, StoryVO>
+) {
 
     private var view: StoriesView? = null
 
@@ -26,28 +30,13 @@ class StoriesPresenter(private val storiesRepository: StoriesRepository) {
     }
 
     @SuppressLint("NewApi")
-    fun loadData() {
-        storiesRepository.getStories(object : ResultListener<List<Story>> {
-            override fun onSuccess(data: List<Story>) {
-                val storiesVO = data.map { story ->
-                    StoryVO(
-                        url = story.url,
-                        title = story.title,
-                        byline = story.byline,
-                        section = story.section
-                    )
-                }
-
-                val dataList: MutableList<VisualObject> = mapWithCategories(storiesVO)
-
-                stories = dataList
-                view?.updateStories(dataList)
-            }
-
-            override fun onError(error: Throwable) {
-                view?.showMessage("Something is wrong")
-            }
-        })
+    fun loadData(forceUpdate: Boolean, section: String) {
+        view?.showLoader(true)
+        storiesRepository.getStories(
+            forceUpdate = forceUpdate,
+            section = section,
+            resultListener = handleResult()
+        )
     }
 
     fun onUserClick(story: StoryVO) {
@@ -82,6 +71,25 @@ class StoriesPresenter(private val storiesRepository: StoriesRepository) {
         }
 
         view?.updateStories(filteredList)
+    }
+
+    private fun handleResult() = object : ResultListener<List<Story>> {
+        override fun onSuccess(data: List<Story>) {
+            val storiesVO = data.sortedBy { story -> story.section }
+                .map(storiesVoMapper::map)
+
+            val dataList: MutableList<VisualObject> = mapWithCategories(storiesVO)
+
+            stories = dataList
+
+            view?.showLoader(false)
+            view?.updateStories(dataList)
+        }
+
+        override fun onError(error: Throwable) {
+            view?.showLoader(false)
+            view?.showMessage("Something is wrong")
+        }
     }
 
     private fun mapWithCategories(storiesVO: List<StoryVO>): MutableList<VisualObject> {
